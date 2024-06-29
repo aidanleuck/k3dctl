@@ -2,4 +2,4 @@
 
 source venv/bin/activate
 pip install --upgrade pip
-pip install -e .
+pip install -e ".[dev]"
