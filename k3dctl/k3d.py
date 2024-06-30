@@ -1,11 +1,13 @@
 import subprocess
 import json
+import os
 
 K3D_EXECUTABLE = "k3d"
+CONFIG_PATH_ENV = "K3D_CONFIG_PATH"
 
 class K3D: 
-    def create_cluster(self, name: str, configPath: str) -> None:
-        result = subprocess.run([K3D_EXECUTABLE, "cluster", "create", name, "--config", configPath])
+    def create_cluster(self, configPath) -> None:
+        result = subprocess.run([K3D_EXECUTABLE, "cluster", "create", "--config", configPath])
         result.check_returncode()
     
     def get_clusters(self):
@@ -16,6 +18,9 @@ class K3D:
         array = json.loads(stdout_string)
 
         return array
+    
+    def __get_config_path(self):
+        return os.getenv(CONFIG_PATH_ENV)
 
     def check_cluster_list(self, name: str, clusterList: list) -> bool:
         for item in clusterList:
